@@ -49,7 +49,7 @@ export default class InventoryDetails extends React.Component {
         return(
         <TouchableOpacity 
         style={styles.table_row}
-        onLongPress={() => { this.delete_Row(item.id) }}>
+        onLongPress={() => { if (item.isSynced == null ){this.delete_Row(item.id)} }}>
             <Text style={[styles.table_row_txt, {width: "30%"}]}>{item.location}</Text>
             <Text style={[styles.table_row_txt, {width: "30%"}]}>{item.barcode}</Text>
             <Text style={[styles.table_row_txt, {width: "15%"}]}>{item.quantity}</Text>

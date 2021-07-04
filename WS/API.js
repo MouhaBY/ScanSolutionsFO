@@ -42,6 +42,22 @@ export async function getWhatToSync(){
     }
 }
 
+export async function deleteSync(){
+    let serverAddress = getAddress()
+    try{
+        const response = await fetch('http://'+serverAddress+'/api/synchronisations/sync', {
+            method: 'DELETE',
+            headers: {'content-type': 'application/json'},
+            })
+        if (response.ok) {
+            return true
+        }
+    }
+    catch(err){
+        return false
+    }
+}
+
 export async function getProducts() {
     let serverAddress = getAddress()
     try{

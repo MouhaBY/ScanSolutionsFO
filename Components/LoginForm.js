@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, StyleSheet, Button, Image, Alert, TextInput, Keyboard, TouchableWithoutFeedback, ScrollView, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import RNBeep from 'react-native-a-beep'
+//import SplashScreen from 'react-native-splash-screen'
+
 
 import User from '../Models/Users'
 import { LOGIN, LOGOUT } from '../Redux/Reducers/authenticationReducer'
@@ -29,6 +31,7 @@ class LoginForm extends React.Component
         const state = store.getState()
         const serverAddress = state.configReducer.serverAddress
         this.setState({serverAddress})
+        //SplashScreen.hide();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -112,7 +115,7 @@ class LoginForm extends React.Component
                     <View 
                     style={styles.container}>
                         <Image source={require('../Images/logo.png')} style={styles.image}/>
-                        <Text style={styles.textcontainer}>Scan Solutions</Text>
+                        <Text style={styles.textcontainer}>entreprise Mobility</Text>
                         <TextInput 
                             value={this.state.username} 
                             onChangeText={this.handleUsernameUpdate} 

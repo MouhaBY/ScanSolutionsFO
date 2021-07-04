@@ -12,9 +12,6 @@ class Inventories extends React.Component
         super(props)
         this.state = {
             inventaires : [],
-            toAdd: false,
-            inventaire_to_add:'',
-            isFormValid:false,
         }
     }
 
@@ -30,63 +27,11 @@ class Inventories extends React.Component
     accessInventory = (item) => {
         this.props.navigation.navigate("Inventorier", {inventory_token:item})
     }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.inventaire_to_add !== prevState.inventaire_to_add){
-            this.validateForm()
-        }
-    }
-
-    validateForm = () => {
-        if (this.state.inventaire_to_add !== '') {
-            this.setState({isFormValid: true})
-        }
-        else{ this.setState({isFormValid: false}) }
-    }
-
-    _reset_form_values(){
-        this.setState({inventaire_to_add: ''})
-        this.setState({inventaires:[]})
-    }
-
-    submit_inventaire = async () => {
-        let today = new Date()
-        let completeDate = today.getDate()+"/"+parseInt(today.getMonth()+1)+"/"+today.getFullYear()
-        this.setState({ toAdd: !this.state.toAdd })
-        await inventory.insertInventaire({ name: this.state.inventaire_to_add, date: completeDate, state:1 })
-        this._reset_form_values()
-        this.componentDidMount()
-    }
-
-    handleInventaireUpdate = inventaire_to_add => {
-        this.setState({inventaire_to_add})
-    }
     
     render(){
         return(
             <View style={styles.mainContainer}>
                 <Text style={styles.textContainer}>Choix d'inventaire à traiter</Text>
-                {this.props.user_token.isAdmin == 1 &&
-                <View>
-                    <TouchableOpacity onPress = {() => this.setState({ toAdd: !this.state.toAdd })}  style={styles.addButton}>
-                        <Text style={{color:'white', height: 30, padding:3}}>Ajouter inventaire</Text>
-                    </TouchableOpacity>
-                    {this.state.toAdd &&
-                    <View style={{flexDirection:'row'}}>
-                        <TextInput 
-                        style={{margin:1, flex:1}} 
-                        autoFocus={true}
-                        placeholder="Nouveau inventaire"
-                        value={this.state.inventaire_to_add} 
-                        onChangeText={this.handleInventaireUpdate} />
-                        <Button 
-                        title='Add'
-                        disabled={!this.state.isFormValid}
-                        onPress={() => { this.submit_inventaire() }}/>
-                    </View>
-                    }
-                </View>
-                }
                 <FlatList 
                     style= {styles.mainList}
                     data={this.state.inventaires}

@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, Text, Alert, StyleSheet, Image, ActivityIndicator } from 'react-native'
 import RNBeep from 'react-native-a-beep'
 
-import { getWhatToSync, getProducts, getLocations, getConfiguration, getUsers, postInventories, postDetailsInventories,getInventories, loginAPI } from '../WS/API'
+import { deleteSync, getWhatToSync, getProducts, getLocations, getConfiguration, getUsers, postInventories, postDetailsInventories,getInventories, loginAPI } from '../WS/API'
 import User from '../Models/Users'
 import Product from '../Models/Products'
 import Configuration from '../Models/Configurations'
@@ -35,7 +35,10 @@ export default class SyncButton extends React.Component {
             await this.postSynchronisation()
             const data = await getWhatToSync()
             const isSynced = await this.SyncTables(data)
-            if (isSynced) { Alert.alert('Synchronisation', 'Synchronisation terminée') }
+            if (isSynced) { 
+                Alert.alert('Synchronisation', 'Synchronisation terminée') 
+                await deleteSync()
+            }
             else { Alert.alert('Synchronisation', 'Terminal à jour') }
             RNBeep.beep()
             this.setState({isLoading:false})
